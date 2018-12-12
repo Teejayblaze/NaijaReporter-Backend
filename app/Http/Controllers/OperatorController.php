@@ -42,8 +42,8 @@ class OperatorController extends Controller
 
     public function verify_operator($oaan_number = null)
     {
-        $operator = Operator::where(['oaan_number' => $oaan_number])->first();
-        
+        $operator = Operator::where(['oaan_number' => str_replace('-', '/', $oaan_number)])->first();
+
         if ($operator) {
             return response()->json(['status' => true, 'errors' => null, 'success' => $operator]);
         } 

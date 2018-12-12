@@ -18,3 +18,4 @@ use Illuminate\Http\Request;
 // });
 
 Route::get('/operator/verify/{oaan_number}', 'OperatorController@verify_operator');
+Route::post('/bank/transfer/money', 'BankSimulationController@transfer_money');
