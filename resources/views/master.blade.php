@@ -35,6 +35,37 @@
                 .modal-body .form-horizontal .col-sm-offset-2 {
                     margin-left: 15px;
                 }
+
+                .show_on_search_valid {
+                    display: none;
+                }
+
+                @media print {
+                    .noprint {
+                        display: none !important;
+                    }
+                    * {
+                        border: none !important;
+                    }
+                    .show_on_search_valid h4 {
+                        font-size: 30px;
+                    }
+                    .col-sm-4, .col-sm-5 {
+                        float: left !important;
+                        width: 200px !important;
+                    }
+                    .col-sm-8, .col-sm-7 {
+                        float: right !important;
+                        width: 350px !important;
+                    }
+                    .adjust-margin {
+                        margin-top: 5px !important;
+                    }
+                    .adjust-margin p,  .adjust-margin div{
+                        padding-top: 0 !important;
+                        padding-bottom: 0 !important;
+                    }
+                }
             </style>
             
      {{-- <script src="{{ asset('zenith/frontend.1ba33d9684afd72608a4bfa4e583d01f504375c6.bundle.min.js')}}"></script> --}}
@@ -199,7 +230,7 @@
         <div class="">
 
 	
-	<div id="main-head" class="main-head">
+	<div id="main-head" class="main-head noprint">
             <div @if( $show_menu_ ) class="wrap" @else class="wrap fluid" @endif>
 		
                 <header>
@@ -242,7 +273,7 @@
 		
 	</div>
 	
-            <div @if( $show_menu_ ) class="wrap" @else class="wrap fluid" @endif>
+            <div @if( $show_menu_ ) class="wrap noprint" @else class="wrap fluid noprint" @endif>
             <div class="breadcrumbs">
                     <span class="location">You are at:</span>
                         <a href="#" class="bbp-breadcrumb-home">Corporate Internet Banking</a>
@@ -261,7 +292,7 @@
 
 <div @if( $show_menu_ ) class="main wrap cf" @else class="main wrap cf fluid" @endif  style="margin-bottom:0px">
 	<div class="row">
-        <div id="main-content1"  @if( $show_menu_ ) class="col-8 main-content" @else class="col-6 main-content"  @endif>		
+        <div id="main-content1"  @if( $show_menu_ ) class="col-8 main-content noprint" @else class="col-6 main-content noprint"  @endif>		
 			<div class="post-0 forum type-forum status-publish">				
                             <div id="demo" class="skdslider" style="width:100%;">
                                 <ul class="slides">
@@ -278,7 +309,7 @@
                             <ul class="slide-navs" style="margin-left: -64px;"><li class="slide-nav-0"><a></a></li><li class="slide-nav-1 current-slide"><a></a></li><li class="slide-nav-2"><a></a></li><li class="slide-nav-3"><a></a></li><li class="slide-nav-4"><a></a></li><li class="slide-nav-5"><a></a></li><li class="slide-nav-6"><a></a></li><li class="slide-nav-7"><a></a></li></ul><a class="prev"></a><a class="next"></a><a class="play-control pause" style="display: none;"></a></div>
 <div>				
 				
-<div id="bbpress-forums">	
+<div id="bbpress-forums" class="noprint">	
 
     <ul id="forums-list-0" class="bbp-forums">
 	<li class="bbp-body">
@@ -351,7 +382,7 @@
 </div>		
 	
      <!-- Sign In -->
-    <aside   @if( $show_menu_ ) class="col-4 sidebar" @else class="col-6 sidebar"  @endif id="signIn">     
+    <aside   @if( $show_menu_ ) class="col-4 sidebar noprint" @else class="col-6 sidebar"  @endif id="signIn">     
 		<ul>			
             <li id="bunyad_bbplogin_widget-2" class="widget bbp_widget_login" style="margin-bottom: 12px">
 
@@ -381,7 +412,7 @@
      
      
       <!-- New User Starts -->
-    <aside class="col-4 sidebar bv-form" id="newUser" style="display: none;" novalidate="novalidate">
+    <aside class="col-4 sidebar bv-form noprint" id="newUser" style="display: none;" novalidate="novalidate">
 		<ul>			
                     <li id="bunyad_bbplogin_widget-2" class="widget bbp_widget_login">
                             <h3 class="widgettitle" id="alert2" style="text-transform: none;">NEW USER </h3>
@@ -469,7 +500,7 @@
      
      
      <!-- Post to ProcessLogin.java -->
-     <aside class="col-4 sidebar" id="PostToProcessLogin">     
+     <aside class="col-4 sidebar noprint" id="PostToProcessLogin">     
 		<ul>			
                     <li id="bunyad_bbplogin_widget-2" class="widget bbp_widget_login" style="margin-bottom: 12px">                       
                         <form id="hidd_form">
@@ -496,8 +527,8 @@
 
 
 		
-<footer @if( $show_menu_ ) class="wrap" @else class="wrap fluid" @endif>
-    <div class="lower-foot">     
+<footer @if( $show_menu_ ) class="wrap noprint" @else class="wrap fluid" @endif>
+    <div class="lower-foot noprint">     
     
     
 <!--	<div class="wrap"> -->

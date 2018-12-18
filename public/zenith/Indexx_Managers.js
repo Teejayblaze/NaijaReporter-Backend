@@ -500,9 +500,109 @@
         var tokencodee = $('#tokencode').val('');         
          $('#signIn').show();
     });
-    //End Back to Login  
+    //End Back to Login
     
+    $additional = `
+        <div class="row adjust-margin" style="margin-top: 0px;">
+            <div class="col-sm-4" style="text-align: left;"><strong>Addition Amount:</strong></div>
+            <div class="col-sm-8" style="text-align: right;">
+                <div style="border-bottom: 1px solid;float: right;padding: 5px 10px;">
+                    <span>&#8358;</span>
+                    <span contenteditable="true" style="outline: none;min-width: 83px;display: inline-block" id="add_amt">0.00</span>
+                    <input type="hidden" class="form-control required" id="extra_amt" name="extra_amt" value="0">
+                </div>                                    
+            </div>
+        </div>
+    `
     
+    $('.add_extra_amount').on('click', function(evt){
+        evt.preventDefault();
+        $self = $(this);
+        $($additional).insertBefore($self.closest('.row'));
+        $self.attr('disabled', 'disabled');
+        // alert('this should have one click event');
+    });
+
+    $('body').on('input', '#add_amt', function(){
+        $('#extra_amt').val($(this).text());
+    });
+
+    $('.print').on('click', function(e){
+        e.preventDefault();
+        window.print();
+    })
+
+    $show_on_search_valid = $('.show_on_search_valid');
+    $asset_name = $('#asset_name');
+    $asst_name = $('#asst_name');
+
+    $asset_desc = $('#asset_desc');
+    $asst_description = $('#asst_description');
+
+    $trans_num = $('#trans_num');
+    $trnx_id = $('#trnx_id');
+
+    $beneficiary_acct = $('#beneficiary_acct');
+    $beneficiary_account = $('#beneficiary_account');
+
+    $asset_amt = $('#asset_amt');
+    $asst_amount = $('#asst_amount');
+
+    $add_amt = $('#add_amt');
+    $extra_amt = $('#extra_amt');
+
+    $('#validate').on('click', function(e){
+        e.preventDefault();
+        $transid = $('#transaction_id').val();
+        var self = $(this);
+        if ($transid.trim()) {
+            
+            self.attr('disabled', 'disabled');
+
+            $.get('http://localhost:8000/api/v1/transaction/'+$transid.trim(), function(res){
+                console.log(res);
+                if ( res.status ) {
+                    
+                    self.removeAttr('disabled');
+
+                    $("#alertus").hide(); 
+
+                    $asset_name.html(res.success.asset_name);
+                    $asst_name.val(res.success.asset_name);
+
+                    $asset_desc.html(res.success.asset_desc);
+                    $asst_description.val(res.success.asset_desc);
+
+                    $trans_num.html($transid);
+                    $trnx_id.val($transid);
+
+                    $beneficiary_acct.html(res.success.account_num);
+                    $beneficiary_account.val(res.success.account_num);
+
+                    $asset_amt.html('&#8358;'+ res.success.deposit_amt);
+                    $asst_amount.val(res.success.deposit_amt);
+
+                    $show_on_search_valid.css('display', 'block');
+                }
+                else {
+                    self.removeAttr('disabled');
+                    $("#alertus").show(); 
+                    $show_on_search_valid.css('display', 'none');
+                    $('#alertus')
+                    .css({'background-color':'#F2DEDE'},{'border-color':'#EBCCD1'})
+                    .html('<center style="color: #A94442; padding: 5px; "><i class="glyphicon glyphicon-warning-sign">&nbsp;&nbsp;</i>'+ res.error +' is required</center>');
+                }
+            });
+        }
+        else {
+            self.removeAttr('disabled');
+            $("#alertus").show(); 
+            $show_on_search_valid.css('display', 'none');
+            $('#alertus')
+            .css({'background-color':'#F2DEDE'},{'border-color':'#EBCCD1'})
+            .html('<center style="color: #A94442; padding: 5px; "><i class="glyphicon glyphicon-warning-sign">&nbsp;&nbsp;</i>Transaction ID is required</center>')
+        }
+    });
     
   //  $('#feedbackForm').validate();
     
@@ -531,27 +631,36 @@
             }
         });
 
-        var recip_bank = '';
-        var recip_bank_type = $('#bank_type option:selected').text().trim();
-        var val_recp_bank_type = $('#bank_type option:selected').val().trim();
+        var self = $(this);
+        self.attr('disabled', 'disabled');
 
-        if ( accp.indexOf(val_recp_bank_type) != -1 ) recip_bank = $('#bank option:selected').text();
+        // var recip_bank = '';
+        // var recip_bank_type = $('#bank_type option:selected').text().trim();
+        // var val_recp_bank_type = $('#bank_type option:selected').val().trim();
+
+        // if ( accp.indexOf(val_recp_bank_type) != -1 ) recip_bank = $('#bank option:selected').text();
 
         var account_num = $('#beneficiary_account').val().trim();
-        var amount = $('#amount').val().trim();
-        var description = $('#description').val().trim();
+        var asst_amount = $('#asst_amount').val().trim();
+        var description = $('#asst_description').val().trim();
         var bank_account_id = $('#bank_account_id').val().trim();
+        var asst_name = $('#asst_name').val().trim();
+        var trnx_id = $('#trnx_id').val().trim();
+        var extra_amt = $('#extra_amt').val();
                   
         $.ajax({                                    
             url: "/api/bank/transfer/money",                                 
             type: "POST", 
             data: {
-                "recipient_bank_type": recip_bank_type, 
-                "recipient_bank": recip_bank, 
+                // "recipient_bank_type": recip_bank_type, 
+                // "recipient_bank": recip_bank, 
                 "account_num": account_num, 
-                "amount": amount, 
-                "description":description,
+                "asst_amount": asst_amount, 
+                "asst_description": description,
                 "bank_account_id": bank_account_id,
+                "extra_amt": extra_amt,
+                "asst_name": asst_name,
+                "trnx_id": trnx_id,
             },
             success: function(data) 
             {   
@@ -565,7 +674,7 @@
                         .html('<center style="color: #A94442; padding: 5px; "><i class="glyphicon glyphicon-warning-sign">&nbsp;&nbsp;</i>' + resp.errors +'</center>');                                 
                 
                 } else {      
-
+                    $("#alertus").show(); 
                     $('#alertus')
                         .css({'background-color':'#0CD10C'},{'border-color':'#EBCCD1'})
                         .html('<center style="color: #fff; padding: 5px;">' + resp.success +'</center>');     
@@ -574,15 +683,21 @@
                         $('#myModal').modal('hide');
                         window.location.reload();                                                                             
                     },3000) 
-                }                                          
+                }     
+                
+                self.removeAttr('disabled');
             },
             complete: function(xhr) { 
                 if (xhr.responseJSON.status) {
                     $('#beneficiary_account').val('');
                     $('#amount').val('');
                     $('#description').val('');
+                    self.removeAttr('disabled');
                 }   
-            }                                
+            },
+            error: function() {
+                self.removeAttr('disabled');
+            }                             
         }); 
                         
 

@@ -15,12 +15,15 @@ class CreateBankAccountTransactionsTable extends Migration
     {
         Schema::create('bank_account_transactions', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('recipient_bank_type');
+            $table->string('recipient_bank_type')->nullable();
             $table->string('recipient_bank')->nullable();
             $table->string('recipient_account_num');
+            $table->string('reference');
             $table->string('account');
-            $table->unsignedDecimal('amount', 15, 2);
+            $table->unsignedDecimal('amount', 20, 2);
+            $table->string('asset_name');
             $table->string('description');
+            $table->string('trnx_id');
             $table->unsignedInteger('bank_acct_id');
             $table->foreign('bank_acct_id')->references('id')->on('bank_accounts');
             $table->timestamps();
