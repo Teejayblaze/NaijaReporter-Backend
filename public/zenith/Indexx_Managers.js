@@ -556,7 +556,7 @@
         $transid = $('#transaction_id').val();
         var self = $(this);
         if ($transid.trim()) {
-            
+
             self.attr('disabled', 'disabled');
 
             $.get('http://localhost:8000/api/v1/transaction/'+$transid.trim(), function(res){
@@ -590,7 +590,7 @@
                     $show_on_search_valid.css('display', 'none');
                     $('#alertus')
                     .css({'background-color':'#F2DEDE'},{'border-color':'#EBCCD1'})
-                    .html('<center style="color: #A94442; padding: 5px; "><i class="glyphicon glyphicon-warning-sign">&nbsp;&nbsp;</i>'+ res.error +' is required</center>');
+                    .html('<center style="color: #A94442; padding: 5px; "><i class="glyphicon glyphicon-warning-sign">&nbsp;&nbsp;</i>'+ res.error +'</center>');
                 }
             });
         }

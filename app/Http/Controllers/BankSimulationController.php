@@ -74,10 +74,6 @@ class BankSimulationController extends Controller
     public function transfer_money(Request $request)
     {
 
-
-        // $recipient_bank_type = $request->recipient_bank_type;
-        
-        // $recipient_bank = $request->recipient_bank;
         $credit_acct = $request->account_num;
 
         $debit_amount = floatval(str_replace(',', '', $request->asst_amount));
@@ -113,8 +109,6 @@ class BankSimulationController extends Controller
         }
 
         $bankTrans = new BankAccountTransaction();
-        // $bankTrans->recipient_bank_type = $recipient_bank_type;
-        // $bankTrans->recipient_bank = $recipient_bank;
         $bnk_ref = 'Bnk/'. date('Y') . '/'. $this->generate_bank_reference(6);
         $bankTrans->reference = $bnk_ref;
         $bankTrans->recipient_account_num = $credit_acct;
