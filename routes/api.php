@@ -17,5 +17,24 @@ use Illuminate\Http\Request;
 //     return $request->user();
 // });
 
-Route::get('/operator/verify/{oaan_number}', 'OperatorController@verify_operator');
-Route::post('/bank/transfer/money', 'BankSimulationController@transfer_money');
+Route::prefix('v1')->group(function (){
+
+    // EndPoint for News Publishing and Retrieval.
+    Route::get('/news/recent/featured', 'NewsReportController@most_recently_featured');
+    Route::get('/news/all/news/category', 'NewsReportController@get_all_news_by_category');
+    Route::post('/news/create', 'NewsReportController@create_news');
+
+
+
+    // EndPoint for creating and retrieving Category of news.
+    Route::get('/news/category', 'NewsCategoryController@get_news_categories');
+    Route::post('/news/category', 'NewsCategoryController@create_news_category');
+    
+
+    // EndPoint for Author registration.
+    Route::post('/news/author', 'NewsAuthorController@create_news_author');
+
+
+    // 
+
+});
